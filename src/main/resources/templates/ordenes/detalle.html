@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de orden - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2 th:text="'Orden #' + ${orden.id()}"></h2>
+        <a class="btn secondary" th:href="@{/ordenes}">Volver</a>
+    </section>
+
+    <table>
+        <tbody>
+        <tr><th>Cliente</th><td th:text="${orden.clienteNombre()}"></td></tr>
+        <tr><th>Equipo</th><td th:text="${orden.equipoResumen()}"></td></tr>
+        <tr><th>Servicio</th><td th:text="${orden.servicioNombre()}"></td></tr>
+        <tr><th>Tecnico</th><td th:text="${orden.tecnicoNombre() ?: 'Sin asignar'}"></td></tr>
+        <tr><th>Estado</th><td><span class="status" th:text="${orden.estado()}"></span></td></tr>
+        <tr><th>Prioridad</th><td th:text="${orden.prioridad()}"></td></tr>
+        <tr><th>Fecha estimada</th><td th:text="${orden.fechaEstimada()}"></td></tr>
+        <tr><th>Problema</th><td th:text="${orden.descripcionProblema()}"></td></tr>
+        <tr><th>Observaciones</th><td th:text="${orden.observaciones()}"></td></tr>
+        </tbody>
+    </table>
+
+    <section class="page-title" style="margin-top: 24px;">
+        <h2 th:text="${tituloCambioEstado}">Cambiar estado</h2>
+    </section>
+
+    <form class="form-grid" th:if="${!estados.isEmpty()}" th:action="@{/ordenes/{id}/cambiar-estado(id=${orden.id()})}" th:object="${cambioEstado}" method="post">
+        <label>Nuevo estado
+            <select th:field="*{estadoNuevo}" required>
+                <option value="">Seleccione accion</option>
+                <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}"></option>
+            </select>
+        </label>
+        <label>Usuario responsable
+            <input th:field="*{usuarioResponsable}" maxlength="120">
+        </label>
+        <label class="full">Observacion
+            <textarea th:field="*{observacion}" maxlength="500"></textarea>
+        </label>
+        <div class="actions full">
+            <button type="submit">Guardar cambio</button>
+        </div>
+    </form>
+
+    <article class="empty-state" th:if="${estados.isEmpty()}">
+        No hay cambios de estado disponibles para tu rol en este momento.
+    </article>
+
+    <section class="page-title" style="margin-top: 24px;">
+        <h2>Diagnostico</h2>
+        <a class="btn" th:if="${puedeGestionarDiagnosticos && diagnostico == null}" th:href="@{/diagnosticos/orden/{id}/nuevo(id=${orden.id()})}">Registrar diagnostico</a>
+        <a class="btn secondary" th:if="${puedeGestionarDiagnosticos && diagnostico != null}" th:href="@{/diagnosticos/{id}/editar(id=${diagnostico.id()})}">Editar diagnostico</a>
+    </section>
+
+    <table th:if="${diagnostico != null}">
+        <tbody>
+        <tr><th>Falla</th><td th:text="${diagnostico.descripcionFalla()}"></td></tr>
+        <tr><th>Causa probable</th><td th:text="${diagnostico.causaProbable()}"></td></tr>
+        <tr><th>Solucion aplicada o recomendada</th><td th:text="${diagnostico.solucionRecomendada()}"></td></tr>
+        <tr><th>Observaciones</th><td th:text="${diagnostico.observaciones()}"></td></tr>
+        <tr><th>Fecha</th><td th:text="${diagnostico.fechaDiagnostico()}"></td></tr>
+        <tr><th>Responsable</th><td th:text="${diagnostico.usuarioResponsable()}"></td></tr>
+        </tbody>
+    </table>
+
+    <table th:if="${diagnostico == null}">
+        <tbody>
+        <tr>
+            <th>Estado</th>
+            <td>Aun no se ha registrado diagnostico para esta orden.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <section class="page-title" style="margin-top: 24px;">
+        <h2>Trabajos realizados</h2>
+        <a class="btn" th:if="${puedeGestionarTrabajos}" th:href="@{/trabajos-orden/orden/{id}/nuevo(id=${orden.id()})}">Registrar trabajo</a>
+    </section>
+
+    <table th:if="${!trabajosOrden.isEmpty()}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Actividad</th>
+            <th>Tecnico</th>
+            <th>Fecha</th>
+            <th>Tiempo</th>
+            <th>Detalle</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="trabajo : ${trabajosOrden}">
+            <td th:text="${trabajo.id()}"></td>
+            <td th:text="${trabajo.actividad()}"></td>
+            <td th:text="${trabajo.tecnicoNombre() ?: 'Tecnico asignado'}"></td>
+            <td th:text="${trabajo.fechaTrabajo()}"></td>
+            <td th:text="${trabajo.tiempoInvertidoMinutos() == null ? '-' : trabajo.tiempoInvertidoMinutos() + ' min'}"></td>
+            <td th:text="${trabajo.detalle()}"></td>
+            <td class="actions">
+                <a class="btn secondary" th:if="${puedeGestionarTrabajos}" th:href="@{/trabajos-orden/{id}/editar(id=${trabajo.id()})}">Editar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table th:if="${trabajosOrden.isEmpty()}">
+        <tbody>
+        <tr>
+            <th>Estado</th>
+            <td>Aun no se han registrado trabajos realizados para esta orden.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <section class="page-title" style="margin-top: 24px;">
+        <h2>Evidencias</h2>
+    </section>
+
+    <form class="form-grid" th:if="${puedeGestionarTrabajos}" th:action="@{/ordenes/{id}/evidencias(id=${orden.id()})}" th:object="${evidencia}" method="post">
+        <input type="hidden" th:field="*{ordenServicioId}">
+        <input type="hidden" th:field="*{tecnicoId}">
+        <label>Tipo
+            <select th:field="*{tipo}">
+                <option th:each="tipo : ${tiposEvidencia}" th:value="${tipo}" th:text="${tipo}"></option>
+            </select>
+        </label>
+        <label>Nombre archivo
+            <input th:field="*{nombreArchivo}" maxlength="180">
+        </label>
+        <label class="full">URL o ruta del archivo
+            <input th:field="*{urlArchivo}" maxlength="500" placeholder="Ejemplo: /uploads/orden-1/foto-antes.jpg">
+        </label>
+        <label>Responsable
+            <input th:field="*{usuarioResponsable}" maxlength="120">
+        </label>
+        <label class="full">Observaciones
+            <textarea th:field="*{observaciones}" maxlength="700"></textarea>
+        </label>
+        <div class="actions full">
+            <button type="submit">Registrar evidencia</button>
+        </div>
+    </form>
+
+    <table th:if="${!evidencias.isEmpty()}">
+        <thead>
+        <tr>
+            <th>Tipo</th>
+            <th>Archivo</th>
+            <th>Observaciones</th>
+            <th>Responsable</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ev : ${evidencias}">
+            <td th:text="${ev.tipo()}"></td>
+            <td>
+                <a th:if="${ev.urlArchivo() != null}" th:href="${ev.urlArchivo()}" th:text="${ev.nombreArchivo() ?: ev.urlArchivo()}" target="_blank"></a>
+                <span th:unless="${ev.urlArchivo() != null}" th:text="${ev.nombreArchivo() ?: '-'}"></span>
+            </td>
+            <td th:text="${ev.observaciones()} ?: '-'"></td>
+            <td th:text="${ev.usuarioResponsable()} ?: '-'"></td>
+            <td th:text="${#temporals.format(ev.fechaRegistro(), 'dd/MM/yyyy HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <table th:if="${evidencias.isEmpty()}">
+        <tbody>
+        <tr>
+            <th>Estado</th>
+            <td>Aun no se han registrado evidencias para esta orden.</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <section class="page-title" style="margin-top: 24px;">
+        <h2>Historial</h2>
+    </section>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Anterior</th>
+            <th>Nuevo</th>
+            <th>Fecha</th>
+            <th>Usuario</th>
+            <th>Observacion</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${historial}">
+            <td th:text="${item.id()}"></td>
+            <td th:text="${item.estadoAnterior()}"></td>
+            <td><span class="status" th:text="${item.estadoNuevo()}"></span></td>
+            <td th:text="${item.fechaCambio()}"></td>
+            <td th:text="${item.usuarioResponsable()}"></td>
+            <td th:text="${item.observacion()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

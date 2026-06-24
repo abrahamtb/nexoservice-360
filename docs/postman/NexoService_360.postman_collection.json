@@ -1,0 +1,1603 @@
+{
+  "info": {
+    "_postman_id": "7fd3ec37-ff13-4f9e-84a7-9c5e1e9f8f01",
+    "name": "NexoService 360 API",
+    "description": "Coleccion para probar la API REST de NexoService 360. Incluye flujo principal, consultas, reportes y pruebas de error.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{username}}",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "{{password}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "01 Clientes",
+      "item": [
+        {
+          "name": "Crear cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombres\": \"Abraham\",\n  \"apellidos\": \"Tintaya\",\n  \"tipoDocumento\": \"DNI\",\n  \"numeroDocumento\": \"12345678\",\n  \"correo\": \"abraham@example.com\",\n  \"telefono\": \"987654321\",\n  \"direccion\": \"Lima, Peru\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar clientes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes?page=0&size=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar cliente por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes",
+                "{{clienteId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar cliente",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombres\": \"Abraham\",\n  \"apellidos\": \"Tintaya Ramos\",\n  \"tipoDocumento\": \"DNI\",\n  \"numeroDocumento\": \"12345678\",\n  \"correo\": \"abraham.t@example.com\",\n  \"telefono\": \"987654321\",\n  \"direccion\": \"Lima, Peru\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes",
+                "{{clienteId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cambiar estado cliente",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes/{{clienteId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes",
+                "{{clienteId}}",
+                "estado"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "02 Tipos de activo",
+      "item": [
+        {
+          "name": "Crear tipo de activo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Aire acondicionado\",\n  \"descripcion\": \"Equipos de climatizacion residencial, comercial o industrial\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tipos-activo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tipos-activo"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar tipos de activo",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tipos-activo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tipos-activo"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar tipos activos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tipos-activo/activos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tipos-activo",
+                "activos"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Activos o equipos",
+      "item": [
+        {
+          "name": "Crear activo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": {{clienteId}},\n  \"tipoActivoId\": {{tipoActivoId}},\n  \"tipo\": \"Aire acondicionado\",\n  \"marca\": \"LG\",\n  \"modelo\": \"Dual Inverter 12000 BTU\",\n  \"numeroSerie\": \"LG-AC-12345\",\n  \"codigoInterno\": \"ACT-001\",\n  \"ubicacion\": \"Oficina principal\",\n  \"caracteristicas\": \"Equipo split, 12000 BTU, 220V\",\n  \"descripcion\": \"Activo entregado para mantenimiento preventivo\",\n  \"observaciones\": \"Cliente reporta bajo rendimiento de enfriamiento\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/equipos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar activos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/equipos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar activos por cliente",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/equipos/cliente/{{clienteId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipos",
+                "cliente",
+                "{{clienteId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cambiar estado activo",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"ACTIVO\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/equipos/{{equipoId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipos",
+                "{{equipoId}}",
+                "estado"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "03 Tecnicos",
+      "item": [
+        {
+          "name": "Crear tecnico",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombres\": \"Carlos\",\n  \"apellidos\": \"Ramos\",\n  \"especialidad\": \"Mantenimiento preventivo y correctivo\",\n  \"correo\": \"carlos.ramos@example.com\",\n  \"telefono\": \"987654322\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar tecnicos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar tecnicos disponibles",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos/disponibles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos",
+                "disponibles"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cambiar disponibilidad",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"disponibilidad\": \"DISPONIBLE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tecnicos/{{tecnicoId}}/disponibilidad",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "tecnicos",
+                "{{tecnicoId}}",
+                "disponibilidad"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "04 Servicios",
+      "item": [
+        {
+          "name": "Crear servicio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Diagnostico y mantenimiento\",\n  \"descripcion\": \"Revision general del equipo, limpieza interna y recomendaciones tecnicas\",\n  \"precioBase\": 80.00,\n  \"duracionEstimadaMinutos\": 120\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/servicios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "servicios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar servicios",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/servicios",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "servicios"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar servicios activos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/servicios/activos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "servicios",
+                "activos"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "05 Ordenes",
+      "item": [
+        {
+          "name": "Crear orden sin tecnico",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": {{clienteId}},\n  \"equipoId\": {{equipoId}},\n  \"servicioId\": {{servicioId}},\n  \"prioridad\": \"MEDIA\",\n  \"fechaEstimada\": \"2026-06-25\",\n  \"descripcionProblema\": \"El aire acondicionado presenta bajo rendimiento de enfriamiento\",\n  \"observaciones\": \"Cliente solicita inspeccion general del activo\",\n  \"usuarioResponsable\": \"Recepcion\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ordenes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar ordenes",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ordenes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtrar ordenes por estado",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes?estado=RECIBIDA",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ordenes"
+              ],
+              "query": [
+                {
+                  "key": "estado",
+                  "value": "RECIBIDA"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Asignar tecnico",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tecnicoId\": {{tecnicoId}},\n  \"usuarioResponsable\": \"Recepcion\",\n  \"observacion\": \"Tecnico asignado por disponibilidad\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes/{{ordenId}}/asignar-tecnico",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ordenes",
+                "{{ordenId}}",
+                "asignar-tecnico"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cambiar estado",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estadoNuevo\": \"EN_DIAGNOSTICO\",\n  \"usuarioResponsable\": \"Carlos Ramos\",\n  \"observacion\": \"Se inicia revision del equipo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes/{{ordenId}}/cambiar-estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ordenes",
+                "{{ordenId}}",
+                "cambiar-estado"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Consultar historial",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes/{{ordenId}}/historial",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ordenes",
+                "{{ordenId}}",
+                "historial"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06 Diagnosticos",
+      "item": [
+        {
+          "name": "Crear diagnostico",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ordenServicioId\": {{ordenId}},\n  \"descripcionFalla\": \"El activo presenta bajo rendimiento durante la operacion\",\n  \"causaProbable\": \"Filtros obstruidos y falta de mantenimiento preventivo\",\n  \"solucionRecomendada\": \"Limpieza tecnica, inspeccion de componentes y prueba de funcionamiento\",\n  \"observaciones\": \"Se recomienda mantenimiento preventivo cada 6 meses\",\n  \"usuarioResponsable\": \"Carlos Ramos\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnosticos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "diagnosticos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar diagnostico por orden",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnosticos/orden/{{ordenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "diagnosticos",
+                "orden",
+                "{{ordenId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar diagnostico por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnosticos/{{diagnosticoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "diagnosticos",
+                "{{diagnosticoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar diagnostico",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"descripcionFalla\": \"El activo presenta bajo rendimiento durante la operacion\",\n  \"causaProbable\": \"Filtros obstruidos y desgaste por uso continuo\",\n  \"solucionRecomendada\": \"Limpieza tecnica, ajuste de componentes y prueba final\",\n  \"observaciones\": \"Cliente autoriza continuar con el servicio\",\n  \"usuarioResponsable\": \"Carlos Ramos\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/diagnosticos/{{diagnosticoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "diagnosticos",
+                "{{diagnosticoId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06B Trabajos realizados",
+      "item": [
+        {
+          "name": "Crear trabajo realizado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ordenServicioId\": {{ordenId}},\n  \"tecnicoId\": {{tecnicoId}},\n  \"actividad\": \"Limpieza tecnica e inspeccion\",\n  \"detalle\": \"Se realizo limpieza de filtros, revision de componentes y prueba de funcionamiento.\",\n  \"tiempoInvertidoMinutos\": 90,\n  \"observaciones\": \"El activo responde correctamente despues del mantenimiento.\",\n  \"usuarioResponsable\": \"Carlos Ramos\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/trabajos-orden",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "trabajos-orden"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar trabajos por orden",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/trabajos-orden/orden/{{ordenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "trabajos-orden",
+                "orden",
+                "{{ordenId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar trabajo por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/trabajos-orden/{{trabajoOrdenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "trabajos-orden",
+                "{{trabajoOrdenId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar trabajo realizado",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tecnicoId\": {{tecnicoId}},\n  \"actividad\": \"Limpieza tecnica, ajuste y prueba\",\n  \"detalle\": \"Se completo limpieza, ajuste de componentes y prueba final de funcionamiento.\",\n  \"tiempoInvertidoMinutos\": 120,\n  \"observaciones\": \"Se recomienda seguimiento en el proximo mantenimiento.\",\n  \"usuarioResponsable\": \"Carlos Ramos\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/trabajos-orden/{{trabajoOrdenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "trabajos-orden",
+                "{{trabajoOrdenId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06C Cotizaciones",
+      "item": [
+        {
+          "name": "Crear cotizacion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ordenServicioId\": {{ordenId}},\n  \"fechaVencimiento\": \"2026-06-30\",\n  \"observaciones\": \"Cotizacion sujeta a aprobacion del cliente\",\n  \"detalles\": [\n    {\n      \"descripcion\": \"Mantenimiento preventivo del activo\",\n      \"cantidad\": 1,\n      \"precioUnitario\": 120.00\n    },\n    {\n      \"descripcion\": \"Limpieza tecnica y prueba de funcionamiento\",\n      \"cantidad\": 1,\n      \"precioUnitario\": 80.00\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cotizaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cotizaciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar cotizaciones",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cotizaciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cotizaciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar cotizaciones por orden",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cotizaciones?ordenServicioId={{ordenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cotizaciones"
+              ],
+              "query": [
+                {
+                  "key": "ordenServicioId",
+                  "value": "{{ordenId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar cotizacion por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/cotizaciones/{{cotizacionId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cotizaciones",
+                "{{cotizacionId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Aprobar cotizacion",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estado\": \"APROBADA\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/cotizaciones/{{cotizacionId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "cotizaciones",
+                "{{cotizacionId}}",
+                "estado"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06D Inventario",
+      "item": [
+        {
+          "name": "Crear producto de inventario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"REP-FILTRO-001\",\n  \"nombre\": \"Filtro universal\",\n  \"descripcion\": \"Repuesto para mantenimiento preventivo\",\n  \"categoria\": \"Repuestos\",\n  \"unidadMedida\": \"UND\",\n  \"stockInicial\": 10,\n  \"stockMinimo\": 2,\n  \"costoUnitario\": 15.00,\n  \"precioReferencia\": 25.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/productos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "productos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar productos de inventario",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/productos?page=0&size=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "productos"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar productos activos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/productos/activos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "productos",
+                "activos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar producto por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/productos/{{productoInventarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "productos",
+                "{{productoInventarioId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Actualizar producto",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo\": \"REP-FILTRO-001\",\n  \"nombre\": \"Filtro universal actualizado\",\n  \"descripcion\": \"Repuesto para mantenimiento preventivo y correctivo\",\n  \"categoria\": \"Repuestos\",\n  \"unidadMedida\": \"UND\",\n  \"stockMinimo\": 3,\n  \"costoUnitario\": 16.00,\n  \"precioReferencia\": 28.00\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/productos/{{productoInventarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "productos",
+                "{{productoInventarioId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cambiar estado producto",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activo\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/productos/{{productoInventarioId}}/estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "productos",
+                "{{productoInventarioId}}",
+                "estado"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar entrada de inventario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": {{productoInventarioId}},\n  \"tipoMovimiento\": \"ENTRADA\",\n  \"cantidad\": 5,\n  \"motivo\": \"Compra de repuestos\",\n  \"usuarioResponsable\": \"Administrador\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/movimientos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "movimientos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar salida por orden",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"productoId\": {{productoInventarioId}},\n  \"ordenServicioId\": {{ordenId}},\n  \"tipoMovimiento\": \"SALIDA\",\n  \"cantidad\": 1,\n  \"motivo\": \"Repuesto usado en orden de servicio\",\n  \"usuarioResponsable\": \"Carlos Ramos\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/movimientos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "movimientos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar movimientos por producto",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/movimientos?productoId={{productoInventarioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "movimientos"
+              ],
+              "query": [
+                {
+                  "key": "productoId",
+                  "value": "{{productoInventarioId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar movimientos por orden",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/inventario/movimientos?ordenServicioId={{ordenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "inventario",
+                "movimientos"
+              ],
+              "query": [
+                {
+                  "key": "ordenServicioId",
+                  "value": "{{ordenId}}"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06E Pagos",
+      "item": [
+        {
+          "name": "Consultar deuda de orden",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos/orden/{{ordenId}}/deuda",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos",
+                "orden",
+                "{{ordenId}}",
+                "deuda"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Registrar pago",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ordenServicioId\": {{ordenId}},\n  \"cotizacionId\": {{cotizacionId}},\n  \"monto\": 80.00,\n  \"metodoPago\": \"YAPE\",\n  \"numeroOperacion\": \"YP-123456\",\n  \"observaciones\": \"Pago parcial del cliente\",\n  \"usuarioResponsable\": \"Recepcion\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar pagos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos?page=0&size=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "0"
+                },
+                {
+                  "key": "size",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar pagos por orden",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos?ordenServicioId={{ordenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos"
+              ],
+              "query": [
+                {
+                  "key": "ordenServicioId",
+                  "value": "{{ordenId}}"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar pago por ID",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos/{{pagoId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos",
+                "{{pagoId}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Anular pago",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"motivo\": \"Registro duplicado\",\n  \"usuarioResponsable\": \"Administrador\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/pagos/{{pagoId}}/anular",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "pagos",
+                "{{pagoId}}",
+                "anular"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06F Mantenimientos programados",
+      "item": [
+        {
+          "name": "Crear mantenimiento programado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"equipoId\": {{equipoId}},\n  \"servicioId\": {{servicioId}},\n  \"frecuencia\": \"TRIMESTRAL\",\n  \"fechaInicio\": \"2026-06-24\",\n  \"proximaFecha\": \"2026-07-24\",\n  \"observaciones\": \"Mantenimiento preventivo del activo\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/mantenimientos-programados",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "mantenimientos-programados"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar mantenimientos",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/mantenimientos-programados",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "mantenimientos-programados"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar alertas",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/mantenimientos-programados?soloAlertas=true",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "mantenimientos-programados"
+              ],
+              "query": [
+                {
+                  "key": "soloAlertas",
+                  "value": "true"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Generar orden desde mantenimiento",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/mantenimientos-programados/{{mantenimientoId}}/generar-orden?usuarioResponsable=Recepcion",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "mantenimientos-programados",
+                "{{mantenimientoId}}",
+                "generar-orden"
+              ],
+              "query": [
+                {
+                  "key": "usuarioResponsable",
+                  "value": "Recepcion"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "06G Evidencias",
+      "item": [
+        {
+          "name": "Registrar evidencia",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"ordenServicioId\": {{ordenId}},\n  \"tecnicoId\": {{tecnicoId}},\n  \"tipo\": \"FOTO_ANTES\",\n  \"nombreArchivo\": \"foto-antes.jpg\",\n  \"urlArchivo\": \"/uploads/orden-1/foto-antes.jpg\",\n  \"observaciones\": \"Estado del activo antes del mantenimiento\",\n  \"usuarioResponsable\": \"Carlos Ramos\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/evidencias",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "evidencias"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Listar evidencias por orden",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/evidencias/orden/{{ordenId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "evidencias",
+                "orden",
+                "{{ordenId}}"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "07 Reportes Jasper",
+      "item": [
+        {
+          "name": "Reporte clientes PDF",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reportes/clientes.pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reportes",
+                "clientes.pdf"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reporte ordenes PDF",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reportes/ordenes.pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reportes",
+                "ordenes.pdf"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cotizacion PDF",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reportes/cotizaciones/{{cotizacionId}}.pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reportes",
+                "cotizaciones",
+                "{{cotizacionId}}.pdf"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Recibo pago PDF",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/reportes/pagos/{{pagoId}}.pdf",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "reportes",
+                "pagos",
+                "{{pagoId}}.pdf"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "08 Pruebas de error",
+      "item": [
+        {
+          "name": "Cliente invalido - nombres vacio",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombres\": \"\",\n  \"apellidos\": \"Tintaya\",\n  \"tipoDocumento\": \"DNI\",\n  \"numeroDocumento\": \"87654321\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/clientes",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "clientes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Equipo con cliente inexistente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clienteId\": 999,\n  \"tipo\": \"Aire acondicionado\",\n  \"marca\": \"LG\",\n  \"modelo\": \"Dual Inverter 12000 BTU\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/equipos",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "equipos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Transicion no permitida",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"estadoNuevo\": \"FINALIZADA\",\n  \"usuarioResponsable\": \"Recepcion\",\n  \"observacion\": \"Prueba de transicion invalida\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/ordenes/{{ordenId}}/cambiar-estado",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "ordenes",
+                "{{ordenId}}",
+                "cambiar-estado"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

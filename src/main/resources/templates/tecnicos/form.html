@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tecnico - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+
+    <section class="page-title">
+        <h2 th:text="${tecnicoId == null ? 'Nuevo tecnico' : 'Editar tecnico'}"></h2>
+        <a class="btn secondary" th:href="@{/tecnicos}">Volver</a>
+    </section>
+
+    <form class="form-grid" th:action="${tecnicoId == null} ? @{/tecnicos} : @{/tecnicos/{id}(id=${tecnicoId})}" th:object="${tecnico}" method="post">
+        <label>Nombres
+            <input th:field="*{nombres}" required maxlength="120">
+        </label>
+        <label>Apellidos
+            <input th:field="*{apellidos}" required maxlength="120">
+        </label>
+        <label>Especialidad
+            <input th:field="*{especialidad}" required maxlength="120">
+        </label>
+        <label>Correo
+            <input type="email" th:field="*{correo}" maxlength="120">
+        </label>
+        <label>Telefono
+            <input th:field="*{telefono}" maxlength="20">
+        </label>
+        <div class="actions full">
+            <button type="submit">Guardar</button>
+            <a class="btn secondary" th:href="@{/tecnicos}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

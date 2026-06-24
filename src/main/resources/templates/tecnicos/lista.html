@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tecnicos - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Tecnicos</h2>
+        <a class="btn" th:href="@{/tecnicos/nuevo}">Nuevo tecnico</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/tecnicos}" method="get">
+        <input type="search" name="buscar" placeholder="Buscar por nombre, especialidad o correo" th:value="${buscar}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Especialidad</th>
+            <th>Correo</th>
+            <th>Disponibilidad</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tecnico : ${tecnicos}">
+            <td th:text="${tecnico.id()}"></td>
+            <td th:text="${tecnico.nombres() + ' ' + tecnico.apellidos()}"></td>
+            <td th:text="${tecnico.especialidad()}"></td>
+            <td th:text="${tecnico.correo()}"></td>
+            <td><span class="status" th:text="${tecnico.disponibilidad()}"></span></td>
+            <td><span class="status" th:text="${tecnico.activo() ? 'Activo' : 'Inactivo'}"></span></td>
+            <td class="actions">
+                <a class="btn secondary" th:href="@{/tecnicos/{id}/editar(id=${tecnico.id()})}">Editar</a>
+                <form th:action="@{/tecnicos/{id}/desactivar(id=${tecnico.id()})}" method="post">
+                    <button class="danger" type="submit">Desactivar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

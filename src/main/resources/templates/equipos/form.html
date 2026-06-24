@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Activo - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+
+    <section class="page-title">
+        <h2 th:text="${equipoId == null ? 'Nuevo activo' : 'Editar activo'}"></h2>
+        <a class="btn secondary" th:href="@{/equipos}">Volver</a>
+    </section>
+
+    <form class="form-grid" th:action="${equipoId == null} ? @{/equipos} : @{/equipos/{id}(id=${equipoId})}" th:object="${equipo}" method="post">
+        <label class="full" th:if="${equipoId == null}">Cliente
+            <select th:field="*{clienteId}" required>
+                <option value="">Seleccione un cliente</option>
+                <option th:each="cliente : ${clientes}"
+                        th:value="${cliente.id}"
+                        th:text="${cliente.nombres + ' ' + (cliente.apellidos ?: '')}">
+                </option>
+            </select>
+        </label>
+        <input type="hidden" th:if="${equipoId != null}" th:field="*{clienteId}">
+        <label>Tipo de activo
+            <select th:field="*{tipoActivoId}">
+                <option value="">Seleccione un tipo</option>
+                <option th:each="tipoActivo : ${tiposActivo}"
+                        th:value="${tipoActivo.id}"
+                        th:text="${tipoActivo.nombre}">
+                </option>
+            </select>
+        </label>
+        <label>Tipo personalizado
+            <input th:field="*{tipo}" maxlength="80" placeholder="Usar solo si no existe en el catalogo">
+        </label>
+        <label>Marca
+            <input th:field="*{marca}" required maxlength="80" placeholder="ASUS, LG, Toyota">
+        </label>
+        <label>Modelo
+            <input th:field="*{modelo}" maxlength="100">
+        </label>
+        <label>Numero de serie
+            <input th:field="*{numeroSerie}" maxlength="100">
+        </label>
+        <label>Codigo interno
+            <input th:field="*{codigoInterno}" maxlength="80" placeholder="ACT-001">
+        </label>
+        <label>Ubicacion
+            <input th:field="*{ubicacion}" maxlength="150" placeholder="Oficina principal, almacen, planta 1">
+        </label>
+        <label class="full">Caracteristicas
+            <textarea th:field="*{caracteristicas}" maxlength="700" placeholder="Capacidad, potencia, placa, medidas, accesorios o datos tecnicos relevantes"></textarea>
+        </label>
+        <label class="full">Descripcion
+            <textarea th:field="*{descripcion}" maxlength="300"></textarea>
+        </label>
+        <label class="full">Observaciones
+            <textarea th:field="*{observaciones}" maxlength="500"></textarea>
+        </label>
+        <div class="actions full">
+            <button type="submit">Guardar</button>
+            <a class="btn secondary" th:href="@{/equipos}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

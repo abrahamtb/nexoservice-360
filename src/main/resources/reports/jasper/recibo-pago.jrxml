@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="recibo_pago"
+              pageWidth="595"
+              pageHeight="842"
+              columnWidth="535"
+              leftMargin="30"
+              rightMargin="30"
+              topMargin="30"
+              bottomMargin="30"
+              uuid="3e865d25-f9c6-4e68-9876-369f588cf67c">
+
+    <style name="Title" fontName="SansSerif" fontSize="18" isBold="true"/>
+    <style name="Label" fontName="SansSerif" fontSize="9" isBold="true" forecolor="#1F2937"/>
+    <style name="Text" fontName="SansSerif" fontSize="9"/>
+    <style name="Header" fontName="SansSerif" fontSize="9" isBold="true" forecolor="#1F2937" backcolor="#E8EEF5"/>
+    <style name="Detail" fontName="SansSerif" fontSize="9"/>
+
+    <parameter name="generatedAt" class="java.lang.String"/>
+    <parameter name="recibo" class="java.lang.String"/>
+    <parameter name="cliente" class="java.lang.String"/>
+    <parameter name="documentoCliente" class="java.lang.String"/>
+    <parameter name="ordenId" class="java.lang.String"/>
+    <parameter name="cotizacion" class="java.lang.String"/>
+    <parameter name="monto" class="java.lang.String"/>
+    <parameter name="estado" class="java.lang.String"/>
+    <parameter name="fechaPago" class="java.lang.String"/>
+
+    <field name="concepto" class="java.lang.String"/>
+    <field name="valor" class="java.lang.String"/>
+
+    <title>
+        <band height="200">
+            <staticText>
+                <reportElement style="Title" x="0" y="0" width="535" height="26" uuid="0fcb077c-2b94-4368-8f1e-bdf59f85507f"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Recibo de pago]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="30" width="535" height="18" uuid="73fd8cd9-73c8-4e9d-a25d-7da8734c96bd"/>
+                <textElement textAlignment="Center"/>
+                <textFieldExpression><![CDATA[$P{recibo}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="52" width="535" height="16" uuid="adcf0fe2-a95f-4b51-b21b-edc8bb436e39"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["Generado: " + $P{generatedAt}]]></textFieldExpression>
+            </textField>
+
+            <staticText><reportElement style="Label" x="0" y="82" width="90" height="16" uuid="ac266de0-d0ad-475c-a168-9d47fc9f04c4"/><text><![CDATA[Cliente:]]></text></staticText>
+            <textField><reportElement style="Text" x="95" y="82" width="245" height="16" uuid="c28bb8c7-52a7-41bc-8df2-ec0aa3f1aeeb"/><textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression></textField>
+            <staticText><reportElement style="Label" x="350" y="82" width="70" height="16" uuid="c0f2d3fd-d0fd-4ae6-96bd-fc036d7af5c5"/><text><![CDATA[Documento:]]></text></staticText>
+            <textField><reportElement style="Text" x="420" y="82" width="115" height="16" uuid="e85c653c-e8b6-4b50-aecf-b8c5b49e9a59"/><textFieldExpression><![CDATA[$P{documentoCliente}]]></textFieldExpression></textField>
+
+            <staticText><reportElement style="Label" x="0" y="108" width="90" height="16" uuid="b8545a30-af77-458a-8742-273f16e8ba30"/><text><![CDATA[Orden:]]></text></staticText>
+            <textField><reportElement style="Text" x="95" y="108" width="100" height="16" uuid="df3efe34-5f3d-4633-985c-b41736c12d90"/><textFieldExpression><![CDATA["#" + $P{ordenId}]]></textFieldExpression></textField>
+            <staticText><reportElement style="Label" x="210" y="108" width="80" height="16" uuid="3e2325ab-ec59-4d7a-906a-a3b06289b32d"/><text><![CDATA[Cotizacion:]]></text></staticText>
+            <textField><reportElement style="Text" x="295" y="108" width="105" height="16" uuid="6054f37d-3c7c-4436-bc91-ec8c0d577c8e"/><textFieldExpression><![CDATA[$P{cotizacion}]]></textFieldExpression></textField>
+            <staticText><reportElement style="Label" x="420" y="108" width="50" height="16" uuid="672176e8-f1ad-4673-9186-34e5a9e65fe9"/><text><![CDATA[Estado:]]></text></staticText>
+            <textField><reportElement style="Text" x="470" y="108" width="65" height="16" uuid="8a31bf0f-2ad6-4369-9bb0-a250ce70e7d0"/><textFieldExpression><![CDATA[$P{estado}]]></textFieldExpression></textField>
+
+            <staticText><reportElement style="Label" x="0" y="138" width="90" height="18" uuid="1f3f06dd-6c6f-4880-b3b1-0a72cde836a1"/><text><![CDATA[Fecha pago:]]></text></staticText>
+            <textField><reportElement style="Text" x="95" y="138" width="160" height="18" uuid="ba7f6b94-c159-4e19-b58d-e14de931c28a"/><textFieldExpression><![CDATA[$P{fechaPago}]]></textFieldExpression></textField>
+            <staticText><reportElement style="Label" x="350" y="138" width="75" height="20" uuid="ec318400-3a3e-48ac-b06c-c88f8c385c92"/><textElement textAlignment="Right"/><text><![CDATA[Monto:]]></text></staticText>
+            <textField><reportElement style="Title" x="430" y="134" width="105" height="26" uuid="af61bb36-c345-4422-a731-7fe380829e60"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$P{monto}]]></textFieldExpression></textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="22">
+            <staticText><reportElement style="Header" mode="Opaque" x="0" y="0" width="180" height="20" uuid="08ec05c2-7b32-406a-a427-843087d35d0e"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[Concepto]]></text></staticText>
+            <staticText><reportElement style="Header" mode="Opaque" x="180" y="0" width="355" height="20" uuid="4407c2d9-31f0-49e0-b2e8-c4c67f6feea1"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[Valor]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="24">
+            <textField><reportElement style="Detail" x="0" y="0" width="180" height="22" uuid="7fc527a3-45b2-4773-b3f2-4206f121179b"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{concepto}]]></textFieldExpression></textField>
+            <textField><reportElement style="Detail" x="180" y="0" width="355" height="22" uuid="0d301090-7832-48b7-bd99-e101ce2d978f"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+</jasperReport>

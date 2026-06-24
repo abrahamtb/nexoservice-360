@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="dashboard-hero">
+        <article class="hero-panel">
+            <span class="role-badge" th:text="${esAdministrador ? 'Administrador' : (esRecepcionista ? 'Recepcionista' : (esTecnico ? 'Tecnico' : 'Usuario'))}"></span>
+            <h2 th:text="${tituloDashboard}">Panel de control</h2>
+            <p th:text="${mensajeDashboard}"></p>
+            <div class="hero-actions">
+                <a class="btn" th:if="${navPuedeCrearOrdenes}" th:href="@{/ordenes/nueva}">Nueva orden</a>
+                <a class="btn secondary" th:if="${navPuedeGestionarClientes}" th:href="@{/clientes/nuevo}">Nuevo cliente</a>
+                <a class="btn secondary" th:if="${esAdministrador}" th:href="@{/usuarios}">Gestionar usuarios</a>
+                <a class="btn secondary" th:if="${esAdministrador}" th:href="@{/tecnicos}">Gestionar tecnicos</a>
+                <a class="btn secondary" th:if="${esAdministrador}" th:href="@{/servicios}">Configurar servicios</a>
+                <a class="btn secondary" th:if="${esAdministrador}" th:href="@{/tipos-activo}">Tipos de activo</a>
+                <a class="btn secondary" th:if="${esTecnico}" th:href="@{/ordenes}">Ver mis ordenes</a>
+                <a class="btn secondary" th:href="@{/consultas/ordenes-por-estado}">Consultar ordenes</a>
+            </div>
+        </article>
+
+        <aside class="quick-panel">
+            <h3>Accesos rapidos</h3>
+            <div class="quick-links">
+                <a th:if="${navPuedeGestionarEquipos}" th:href="@{/equipos}">Activos <span>Ver</span></a>
+                <a th:if="${navPuedeGestionarInventario}" th:href="@{/inventario}">Inventario <span>Stock</span></a>
+                <a th:if="${navPuedeGestionarCotizaciones}" th:href="@{/cotizaciones}">Cotizaciones <span>Costos</span></a>
+                <a th:if="${navPuedeGestionarPagos}" th:href="@{/pagos}">Pagos <span>Deuda</span></a>
+                <a th:href="@{/ordenes}">Ordenes <span th:text="${esTecnico ? 'Mis casos' : 'Ver'}">Ver</span></a>
+                <a th:if="${navPuedeGestionarEquipos}" th:href="@{/consultas/equipos-por-cliente}">Consulta activos <span>Buscar</span></a>
+                <a th:href="@{/consultas/ordenes-por-estado}">Consulta ordenes <span>Estado</span></a>
+                <a th:if="${navPuedeGestionarDiagnosticos}" th:href="@{/ordenes}">Diagnosticos <span>Gestionar</span></a>
+            </div>
+        </aside>
+    </section>
+
+    <section class="dashboard-grid">
+        <article class="metric" th:each="total : ${totales}">
+            <span th:text="${total.key}"></span>
+            <strong th:text="${total.value}"></strong>
+        </article>
+    </section>
+
+    <section class="dashboard-layout">
+        <article class="dashboard-card">
+            <h3>Ordenes por estado</h3>
+            <div class="state-list">
+                <div class="state-item" th:each="item : ${ordenesPorEstado}">
+                    <span class="state-name" th:text="${item.key}"></span>
+                    <div class="state-bar">
+                        <span th:style="${totalOrdenes > 0 ? 'width:' + (item.value * 100 / totalOrdenes) + '%' : 'width:0%'}"></span>
+                    </div>
+                    <span class="state-total" th:text="${item.value}"></span>
+                </div>
+            </div>
+        </article>
+
+        <aside class="dashboard-card" th:if="${navPuedeVerReportes}">
+            <h3>Reportes Jasper</h3>
+            <div class="report-links">
+                <a th:href="@{/reportes/clientes.pdf}" target="_blank">Abrir reporte de clientes</a>
+                <a th:href="@{/reportes/ordenes.pdf}" target="_blank">Abrir reporte de ordenes</a>
+                <a th:href="@{/cotizaciones}">Ver cotizaciones para PDF</a>
+                <a th:href="@{/pagos}">Ver recibos de pago</a>
+            </div>
+        </aside>
+
+        <aside class="dashboard-card" th:unless="${navPuedeVerReportes}">
+            <h3 th:text="${esTecnico ? 'Trabajo tecnico' : 'Atencion al cliente'}">Siguiente paso</h3>
+            <p class="helper-text" th:if="${esTecnico}">Selecciona una orden asignada para registrar diagnosticos, observaciones y avances permitidos.</p>
+            <p class="helper-text" th:unless="${esTecnico}">Manten actualizados los datos del cliente, registra activos y consulta el avance de cada orden.</p>
+        </aside>
+    </section>
+</main>
+</body>
+</html>

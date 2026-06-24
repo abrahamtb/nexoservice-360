@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagos - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Pagos</h2>
+        <a class="btn" th:href="@{/pagos/nuevo}">Nuevo pago</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/pagos}" method="get">
+        <input type="number" name="ordenServicioId" placeholder="Orden" th:value="${ordenServicioId}">
+        <button type="submit">Filtrar</button>
+        <a class="btn secondary" th:if="${ordenServicioId != null}" th:href="@{/pagos/deuda(ordenServicioId=${ordenServicioId})}">Ver deuda</a>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Orden</th>
+            <th>Cotizacion</th>
+            <th>Monto</th>
+            <th>Metodo</th>
+            <th>Estado</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pago : ${pagos}">
+            <td th:text="${pago.id()}"></td>
+            <td th:text="${'#' + pago.ordenServicioId()}"></td>
+            <td th:text="${pago.numeroCotizacion()} ?: '-'"></td>
+            <td th:text="${pago.monto()}"></td>
+            <td th:text="${pago.metodoPago()}"></td>
+            <td><span class="status" th:text="${pago.estado()}"></span></td>
+            <td th:text="${#temporals.format(pago.fechaPago(), 'dd/MM/yyyy HH:mm')}"></td>
+            <td class="actions">
+                <a class="btn secondary" th:href="@{/pagos/{id}(id=${pago.id()})}">Ver</a>
+                <a class="btn secondary" th:href="@{/reportes/pagos/{id}.pdf(id=${pago.id()})}" target="_blank">PDF</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

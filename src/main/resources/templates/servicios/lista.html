@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Servicios - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Servicios</h2>
+        <a class="btn" th:href="@{/servicios/nuevo}">Nuevo servicio</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/servicios}" method="get">
+        <input type="search" name="buscar" placeholder="Buscar por nombre o descripcion" th:value="${buscar}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Precio base</th>
+            <th>Duracion</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="servicio : ${servicios}">
+            <td th:text="${servicio.id()}"></td>
+            <td th:text="${servicio.nombre()}"></td>
+            <td th:text="${servicio.precioBase()}"></td>
+            <td th:text="${servicio.duracionEstimadaMinutos()}"></td>
+            <td><span class="status" th:text="${servicio.activo() ? 'Activo' : 'Inactivo'}"></span></td>
+            <td class="actions">
+                <a class="btn secondary" th:href="@{/servicios/{id}/editar(id=${servicio.id()})}">Editar</a>
+                <form th:action="@{/servicios/{id}/desactivar(id=${servicio.id()})}" method="post">
+                    <button class="danger" type="submit">Desactivar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

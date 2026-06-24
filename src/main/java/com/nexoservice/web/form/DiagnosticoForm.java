@@ -1,0 +1,32 @@
+package com.nexoservice.web.form;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class DiagnosticoForm {
+
+    @NotNull(message = "La orden de servicio es obligatoria")
+    private Long ordenServicioId;
+
+    @NotBlank(message = "La descripcion de la falla es obligatoria")
+    @Size(max = 700, message = "La descripcion de la falla no debe superar 700 caracteres")
+    private String descripcionFalla;
+
+    @Size(max = 500, message = "La causa probable no debe superar 500 caracteres")
+    private String causaProbable;
+
+    @NotBlank(message = "La solucion recomendada es obligatoria")
+    @Size(max = 700, message = "La solucion recomendada no debe superar 700 caracteres")
+    private String solucionRecomendada;
+
+    @Size(max = 500, message = "Las observaciones no deben superar 500 caracteres")
+    private String observaciones;
+
+    @Size(max = 120, message = "El usuario responsable no debe superar 120 caracteres")
+    private String usuarioResponsable;
+}

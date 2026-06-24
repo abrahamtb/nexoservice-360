@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Consulta ordenes - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <section class="page-title">
+        <h2>Consulta de ordenes por estado</h2>
+    </section>
+
+    <form class="toolbar" th:action="@{/consultas/ordenes-por-estado}" method="get">
+        <select name="estado" required>
+            <option value="">Seleccione un estado</option>
+            <option th:each="estado : ${estados}"
+                    th:value="${estado}"
+                    th:selected="${estadoSeleccionado != null && estado == estadoSeleccionado}"
+                    th:text="${estado}">
+            </option>
+        </select>
+        <button type="submit">Consultar</button>
+    </form>
+
+    <table th:if="${ordenes != null}">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Equipo</th>
+            <th>Servicio</th>
+            <th>Tecnico</th>
+            <th>Prioridad</th>
+            <th>Fecha estimada</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orden : ${ordenes}">
+            <td th:text="${orden.id()}"></td>
+            <td th:text="${orden.clienteNombre()}"></td>
+            <td th:text="${orden.equipoResumen()}"></td>
+            <td th:text="${orden.servicioNombre()}"></td>
+            <td th:text="${orden.tecnicoNombre()}"></td>
+            <td><span class="status" th:text="${orden.prioridad()}"></span></td>
+            <td th:text="${orden.fechaEstimada()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

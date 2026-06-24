@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <section class="page-title">
+        <h2>No se pudo completar la accion</h2>
+        <a class="btn secondary" th:href="@{/dashboard}">Ir al dashboard</a>
+    </section>
+
+    <div class="alert" th:text="${message}">Ocurrio un problema.</div>
+
+    <p class="helper-text">
+        Revisa los datos ingresados o vuelve al dashboard para continuar.
+    </p>
+</main>
+</body>
+</html>

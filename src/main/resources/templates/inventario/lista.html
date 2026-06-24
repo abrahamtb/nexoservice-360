@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventario - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Inventario</h2>
+        <div class="actions">
+            <a class="btn secondary" th:href="@{/inventario/movimientos}">Movimientos</a>
+            <a class="btn" th:href="@{/inventario/nuevo}">Nuevo producto</a>
+        </div>
+    </section>
+
+    <form class="toolbar" th:action="@{/inventario}" method="get">
+        <input type="search" name="buscar" placeholder="Buscar por codigo, nombre o categoria" th:value="${buscar}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Codigo</th>
+            <th>Producto</th>
+            <th>Categoria</th>
+            <th>Stock</th>
+            <th>Minimo</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="producto : ${productos}">
+            <td th:text="${producto.codigo}"></td>
+            <td th:text="${producto.nombre}"></td>
+            <td th:text="${producto.categoria} ?: '-'"></td>
+            <td th:text="${producto.stockActual}"></td>
+            <td th:text="${producto.stockMinimo}"></td>
+            <td><span class="status" th:text="${producto.bajoStock ? 'Stock bajo' : (producto.activo ? 'Activo' : 'Inactivo')}"></span></td>
+            <td class="actions">
+                <a class="btn secondary" th:href="@{/inventario/{id}/editar(id=${producto.id})}">Editar</a>
+                <a class="btn secondary" th:href="@{/inventario/movimientos(productoId=${producto.id})}">Kardex</a>
+                <form th:if="${producto.activo}" th:action="@{/inventario/{id}/desactivar(id=${producto.id})}" method="post">
+                    <button class="danger" type="submit">Desactivar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

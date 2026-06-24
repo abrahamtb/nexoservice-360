@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de pago - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2 th:text="${'Pago #' + pago.id()}"></h2>
+        <div class="actions">
+            <a class="btn secondary" th:href="@{/pagos}">Volver</a>
+            <a class="btn" th:href="@{/reportes/pagos/{id}.pdf(id=${pago.id()})}" target="_blank">Abrir recibo PDF</a>
+        </div>
+    </section>
+
+    <section class="detail-grid">
+        <article><span>Orden</span><strong th:text="${'#' + pago.ordenServicioId()}"></strong></article>
+        <article><span>Cotizacion</span><strong th:text="${pago.numeroCotizacion()} ?: '-'"></strong></article>
+        <article><span>Monto</span><strong th:text="${pago.monto()}"></strong></article>
+        <article><span>Estado</span><strong th:text="${pago.estado()}"></strong></article>
+        <article><span>Metodo</span><strong th:text="${pago.metodoPago()}"></strong></article>
+        <article><span>Operacion</span><strong th:text="${pago.numeroOperacion()} ?: '-'"></strong></article>
+    </section>
+</main>
+</body>
+</html>

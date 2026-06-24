@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuario - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+
+    <section class="page-title">
+        <div>
+            <h2 th:text="${usuarioId == null ? 'Nuevo usuario' : 'Editar usuario'}"></h2>
+            <span th:text="${usuarioId == null ? 'Crea credenciales seguras y asigna el rol correcto' : 'Actualiza permisos, estado o vinculo tecnico'}"></span>
+        </div>
+        <a class="btn secondary" th:href="@{/usuarios}">Volver</a>
+    </section>
+
+    <div class="alert" th:if="${mensajeError}" th:text="${mensajeError}"></div>
+
+    <form class="form-grid" th:action="${usuarioId == null} ? @{/usuarios} : @{/usuarios/{id}(id=${usuarioId})}" th:object="${usuario}" method="post">
+        <label>Usuario
+            <input th:field="*{username}" required maxlength="60">
+            <small class="field-help">Nombre para iniciar sesion. Usa algo corto y facil de reconocer.</small>
+            <span class="field-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
+        </label>
+        <label>Correo
+            <input type="email" th:field="*{correo}" required maxlength="120">
+            <small class="field-help">Debe ser unico dentro del sistema.</small>
+            <span class="field-error" th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></span>
+        </label>
+        <label>Contrasena
+            <input type="password" th:field="*{password}" maxlength="120" th:required="${usuarioId == null}">
+            <small class="field-help" th:text="${usuarioId == null ? 'Obligatoria para usuarios nuevos.' : 'Dejala vacia si no quieres cambiarla.'}"></small>
+            <span class="field-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+        </label>
+        <label>Rol
+            <select th:field="*{rol}" required>
+                <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol}"></option>
+            </select>
+            <small class="field-help">El rol define que pantallas y acciones puede usar.</small>
+            <span class="field-error" th:if="${#fields.hasErrors('rol')}" th:errors="*{rol}"></span>
+        </label>
+        <label>Tecnico vinculado
+            <select th:field="*{tecnicoId}">
+                <option value="">No aplica</option>
+                <option th:each="tecnico : ${tecnicos}"
+                        th:value="${tecnico.id}"
+                        th:text="${tecnico.nombres + ' ' + tecnico.apellidos + ' - ' + tecnico.especialidad}">
+                </option>
+            </select>
+            <small class="field-help">Obligatorio solo cuando el rol sea TECNICO.</small>
+        </label>
+        <label>Estado
+            <select th:field="*{activo}">
+                <option th:value="true">Activo</option>
+                <option th:value="false">Inactivo</option>
+            </select>
+            <small class="field-help">Un usuario inactivo conserva historial, pero no deberia operar el sistema.</small>
+        </label>
+        <div class="actions full">
+            <button type="submit">Guardar</button>
+            <a class="btn secondary" th:href="@{/usuarios}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

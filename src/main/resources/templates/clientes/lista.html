@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Clientes</h2>
+        <div class="actions">
+            <a class="btn secondary" th:href="@{/reportes/clientes.pdf}" target="_blank">Reporte PDF</a>
+            <a class="btn" th:href="@{/clientes/nuevo}">Nuevo cliente</a>
+        </div>
+    </section>
+
+    <form class="toolbar" th:action="@{/clientes}" method="get">
+        <input type="search" name="buscar" placeholder="Buscar por nombre o documento" th:value="${buscar}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Documento</th>
+            <th>Correo</th>
+            <th>Telefono</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cliente : ${clientes}">
+            <td th:text="${cliente.id()}"></td>
+            <td th:text="${cliente.nombres() + ' ' + (cliente.apellidos() ?: '')}"></td>
+            <td th:text="${cliente.tipoDocumento() + ' ' + cliente.numeroDocumento()}"></td>
+            <td th:text="${cliente.correo()}"></td>
+            <td th:text="${cliente.telefono()}"></td>
+            <td><span class="status" th:text="${cliente.activo() ? 'Activo' : 'Inactivo'}"></span></td>
+            <td class="actions">
+                <a class="btn secondary" th:href="@{/clientes/{id}/editar(id=${cliente.id()})}">Editar</a>
+                <form th:action="@{/clientes/{id}/desactivar(id=${cliente.id()})}" method="post">
+                    <button class="danger" type="submit">Desactivar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cliente - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+
+    <section class="page-title">
+        <h2 th:text="${clienteId == null ? 'Nuevo cliente' : 'Editar cliente'}"></h2>
+        <a class="btn secondary" th:href="@{/clientes}">Volver</a>
+    </section>
+
+    <form class="form-grid" th:action="${clienteId == null} ? @{/clientes} : @{/clientes/{id}(id=${clienteId})}" th:object="${cliente}" method="post">
+        <label>Nombres
+            <input th:field="*{nombres}" required maxlength="120">
+        </label>
+        <label>Apellidos
+            <input th:field="*{apellidos}" maxlength="120">
+        </label>
+        <label>Tipo documento
+            <select th:field="*{tipoDocumento}">
+                <option th:each="tipo : ${tiposDocumento}" th:value="${tipo}" th:text="${tipo}"></option>
+            </select>
+        </label>
+        <label>Numero documento
+            <input th:field="*{numeroDocumento}" required maxlength="20">
+        </label>
+        <label>Correo
+            <input type="email" th:field="*{correo}" maxlength="120">
+        </label>
+        <label>Telefono
+            <input th:field="*{telefono}" maxlength="20">
+        </label>
+        <label class="full">Direccion
+            <input th:field="*{direccion}" maxlength="180">
+        </label>
+        <div class="actions full">
+            <button type="submit">Guardar</button>
+            <a class="btn secondary" th:href="@{/clientes}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

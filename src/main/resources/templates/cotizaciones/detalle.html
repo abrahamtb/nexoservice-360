@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de cotizacion - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2 th:text="${'Cotizacion ' + cotizacion.numero()}"></h2>
+        <div class="actions">
+            <a class="btn secondary" th:href="@{/cotizaciones}">Volver</a>
+            <a class="btn" th:href="@{/reportes/cotizaciones/{id}.pdf(id=${cotizacion.id()})}" target="_blank">Abrir PDF</a>
+        </div>
+    </section>
+
+    <section class="detail-grid">
+        <article><span>Orden</span><strong th:text="${'#' + cotizacion.ordenServicioId()}"></strong></article>
+        <article><span>Estado</span><strong th:text="${cotizacion.estado()}"></strong></article>
+        <article><span>Total</span><strong th:text="${cotizacion.total()}"></strong></article>
+        <article><span>Vencimiento</span><strong th:text="${cotizacion.fechaVencimiento()} ?: '-'"></strong></article>
+    </section>
+
+    <form class="toolbar" th:action="@{/cotizaciones/{id}/estado(id=${cotizacion.id()})}" method="post">
+        <select name="estado">
+            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}" th:selected="${estado == cotizacion.estado()}"></option>
+        </select>
+        <button type="submit">Actualizar estado</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Descripcion</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+            <th>Subtotal</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="detalle : ${cotizacion.detalles()}">
+            <td th:text="${detalle.descripcion()}"></td>
+            <td th:text="${detalle.cantidad()}"></td>
+            <td th:text="${detalle.precioUnitario()}"></td>
+            <td th:text="${detalle.subtotal()}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd"
+              name="ordenes"
+              pageWidth="842"
+              pageHeight="595"
+              columnWidth="782"
+              leftMargin="30"
+              rightMargin="30"
+              topMargin="30"
+              bottomMargin="30"
+              uuid="4e8c59df-11e3-43bc-bf89-3a8916c98a92">
+
+    <style name="Title" fontName="SansSerif" fontSize="18" isBold="true"/>
+    <style name="Label" fontName="SansSerif" fontSize="9" isBold="true" forecolor="#1F2937"/>
+    <style name="Metric" fontName="SansSerif" fontSize="14" isBold="true"/>
+    <style name="Header" fontName="SansSerif" fontSize="9" isBold="true" forecolor="#1F2937" backcolor="#E8EEF5"/>
+    <style name="Detail" fontName="SansSerif" fontSize="8"/>
+
+    <parameter name="generatedAt" class="java.lang.String"/>
+    <parameter name="totalOrdenes" class="java.lang.String"/>
+    <parameter name="ordenesPendientes" class="java.lang.String"/>
+    <parameter name="ordenesFinalizadas" class="java.lang.String"/>
+    <parameter name="ordenesCanceladas" class="java.lang.String"/>
+
+    <field name="id" class="java.lang.Long"/>
+    <field name="cliente" class="java.lang.String"/>
+    <field name="equipo" class="java.lang.String"/>
+    <field name="servicio" class="java.lang.String"/>
+    <field name="tecnico" class="java.lang.String"/>
+    <field name="estado" class="java.lang.String"/>
+    <field name="prioridad" class="java.lang.String"/>
+
+    <title>
+        <band height="130">
+            <staticText>
+                <reportElement style="Title" x="0" y="0" width="782" height="24" uuid="695d29bb-5fec-42b1-98cc-286414ae4ea3"/>
+                <textElement textAlignment="Center"/>
+                <text><![CDATA[Reporte de ordenes de servicio]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="0" y="34" width="782" height="18" uuid="f1b8cd26-59eb-4463-a694-826eff7c82f7"/>
+                <textElement textAlignment="Right"/>
+                <textFieldExpression><![CDATA["Generado: " + $P{generatedAt}]]></textFieldExpression>
+            </textField>
+            <rectangle>
+                <reportElement x="0" y="66" width="180" height="44" backcolor="#F8FAFC" mode="Opaque" uuid="f3e7a271-8b77-45c2-8570-723ac86794ba"/>
+                <graphicElement><pen lineColor="#CBD5E1"/></graphicElement>
+            </rectangle>
+            <staticText><reportElement style="Label" x="10" y="72" width="120" height="14" uuid="b159d4ff-4143-4666-8136-d36c5ea1d6df"/><text><![CDATA[Total ordenes]]></text></staticText>
+            <textField><reportElement style="Metric" x="10" y="88" width="150" height="18" uuid="0cc636a3-0e8f-4b96-915b-d2d03e29c961"/><textFieldExpression><![CDATA[$P{totalOrdenes}]]></textFieldExpression></textField>
+            <rectangle>
+                <reportElement x="200" y="66" width="180" height="44" backcolor="#F8FAFC" mode="Opaque" uuid="bda5165b-4405-478e-9619-bbbbe8b543a5"/>
+                <graphicElement><pen lineColor="#CBD5E1"/></graphicElement>
+            </rectangle>
+            <staticText><reportElement style="Label" x="210" y="72" width="120" height="14" uuid="501174a7-5979-47e8-a903-3213b478866d"/><text><![CDATA[Pendientes]]></text></staticText>
+            <textField><reportElement style="Metric" x="210" y="88" width="150" height="18" uuid="8d01f122-7da4-4f50-a0c9-63119953c610"/><textFieldExpression><![CDATA[$P{ordenesPendientes}]]></textFieldExpression></textField>
+            <rectangle>
+                <reportElement x="400" y="66" width="180" height="44" backcolor="#F8FAFC" mode="Opaque" uuid="63641f46-c0fc-40dc-9280-03f2e17e7fdf"/>
+                <graphicElement><pen lineColor="#CBD5E1"/></graphicElement>
+            </rectangle>
+            <staticText><reportElement style="Label" x="410" y="72" width="120" height="14" uuid="32ed9d4d-a36d-4536-9e18-08de193ed254"/><text><![CDATA[Finalizadas]]></text></staticText>
+            <textField><reportElement style="Metric" x="410" y="88" width="150" height="18" uuid="9359fd81-2323-40b6-8e70-ad3c8aef26e4"/><textFieldExpression><![CDATA[$P{ordenesFinalizadas}]]></textFieldExpression></textField>
+            <rectangle>
+                <reportElement x="600" y="66" width="182" height="44" backcolor="#F8FAFC" mode="Opaque" uuid="7f80ac78-d287-4e19-a1df-dc3a5f64a844"/>
+                <graphicElement><pen lineColor="#CBD5E1"/></graphicElement>
+            </rectangle>
+            <staticText><reportElement style="Label" x="610" y="72" width="120" height="14" uuid="84ab7d7a-f784-48f3-93c6-6059cb8af353"/><text><![CDATA[Canceladas]]></text></staticText>
+            <textField><reportElement style="Metric" x="610" y="88" width="150" height="18" uuid="ad325c6d-0732-4265-abed-aa57180dc99e"/><textFieldExpression><![CDATA[$P{ordenesCanceladas}]]></textFieldExpression></textField>
+        </band>
+    </title>
+
+    <columnHeader>
+        <band height="22">
+            <staticText><reportElement style="Header" mode="Opaque" x="0" y="0" width="35" height="20" uuid="b6cbf5f0-93c2-413e-98e3-688b4f937d0e"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[ID]]></text></staticText>
+            <staticText><reportElement style="Header" mode="Opaque" x="35" y="0" width="115" height="20" uuid="2f02c6f0-bc89-4c70-b461-f040ae1fd692"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[Cliente]]></text></staticText>
+            <staticText><reportElement style="Header" mode="Opaque" x="150" y="0" width="130" height="20" uuid="c8012546-481f-484e-a028-7698dc112c8b"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[Equipo]]></text></staticText>
+            <staticText><reportElement style="Header" mode="Opaque" x="280" y="0" width="130" height="20" uuid="e01f6d98-0f90-47dc-b2c4-a7a2b82f16d5"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[Servicio]]></text></staticText>
+            <staticText><reportElement style="Header" mode="Opaque" x="410" y="0" width="110" height="20" uuid="c2a8939e-1245-41e3-9eda-c2bde2d1905d"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[Tecnico]]></text></staticText>
+            <staticText><reportElement style="Header" mode="Opaque" x="520" y="0" width="160" height="20" uuid="d72fe06a-c9b4-42f5-b2d6-a5817e4a902c"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[Estado]]></text></staticText>
+            <staticText><reportElement style="Header" mode="Opaque" x="680" y="0" width="102" height="20" uuid="c709fdb4-1f42-41a8-a685-0085b2a779fb"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><text><![CDATA[Prioridad]]></text></staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="22">
+            <textField><reportElement style="Detail" x="0" y="0" width="35" height="20" uuid="b5891212-353f-452b-96ff-1c650119673c"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{id}]]></textFieldExpression></textField>
+            <textField><reportElement style="Detail" x="35" y="0" width="115" height="20" uuid="f3160d87-1a45-48bb-933c-ee1343296dc1"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression></textField>
+            <textField><reportElement style="Detail" x="150" y="0" width="130" height="20" uuid="fa80edae-a2a3-46ac-a81e-b7b4706f2ee1"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{equipo}]]></textFieldExpression></textField>
+            <textField><reportElement style="Detail" x="280" y="0" width="130" height="20" uuid="a539f269-dcb0-4181-8563-7ffad2119c99"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{servicio}]]></textFieldExpression></textField>
+            <textField><reportElement style="Detail" x="410" y="0" width="110" height="20" uuid="9157b5b0-600a-4864-8c2c-e58c9752e480"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{tecnico}]]></textFieldExpression></textField>
+            <textField><reportElement style="Detail" x="520" y="0" width="160" height="20" uuid="e82cc2ce-bd08-4b77-a27e-dc1736d2dc3e"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{estado}]]></textFieldExpression></textField>
+            <textField><reportElement style="Detail" x="680" y="0" width="102" height="20" uuid="9735e6a7-8729-4468-80c4-37fdb610bbfa"/><box><pen lineWidth="0.5"/></box><textElement verticalAlignment="Middle"/><textFieldExpression><![CDATA[$F{prioridad}]]></textFieldExpression></textField>
+        </band>
+    </detail>
+</jasperReport>

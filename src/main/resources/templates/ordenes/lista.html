@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ordenes - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Ordenes de servicio</h2>
+        <div class="actions">
+            <a class="btn secondary" th:href="@{/reportes/ordenes.pdf}" target="_blank">Reporte PDF</a>
+            <a class="btn" th:if="${puedeCrearOrdenes}" th:href="@{/ordenes/nueva}">Nueva orden</a>
+        </div>
+    </section>
+
+    <form class="toolbar" th:action="@{/ordenes}" method="get">
+        <select name="estado">
+            <option value="">Todos los estados</option>
+            <option th:each="estado : ${estados}"
+                    th:value="${estado}"
+                    th:selected="${estadoSeleccionado != null && estado == estadoSeleccionado}"
+                    th:text="${estado}">
+            </option>
+        </select>
+        <button type="submit">Filtrar</button>
+        <a class="btn secondary" th:href="@{/ordenes}">Limpiar</a>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Equipo</th>
+            <th>Servicio</th>
+            <th>Tecnico</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="orden : ${ordenes}">
+            <td th:text="${orden.id()}"></td>
+            <td th:text="${orden.clienteNombre()}"></td>
+            <td th:text="${orden.equipoResumen()}"></td>
+            <td th:text="${orden.servicioNombre()}"></td>
+            <td th:text="${orden.tecnicoNombre() ?: 'Sin asignar'}"></td>
+            <td><span class="status" th:text="${orden.estado()}"></span></td>
+            <td th:text="${orden.prioridad()}"></td>
+            <td>
+                <a class="btn secondary" th:href="@{/ordenes/{id}(id=${orden.id()})}">Ver</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

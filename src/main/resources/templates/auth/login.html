@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="login-page">
+<main class="login-box">
+    <h1>NexoService 360</h1>
+    <p>Gestion de clientes, activos, servicios y ordenes tecnicas.</p>
+
+    <div class="alert" th:if="${param.error}">
+        Usuario o contrasena incorrectos.
+    </div>
+    <div class="alert success" th:if="${param.logout}">
+        Sesion cerrada correctamente.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <label>Usuario
+            <input name="username" autocomplete="username" required>
+        </label>
+        <label>Contrasena
+            <input type="password" name="password" autocomplete="current-password" required>
+        </label>
+        <button type="submit">Iniciar sesion</button>
+    </form>
+
+    <div class="login-demo">
+        Demo: <strong>admin</strong> / <strong>admin123</strong>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso denegado - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav>
+        <a th:href="@{/dashboard}">Dashboard</a>
+        <a th:href="@{/clientes}">Clientes</a>
+        <a th:href="@{/equipos}">Activos</a>
+        <a th:href="@{/ordenes}">Ordenes</a>
+        <form class="logout-form" th:action="@{/logout}" method="post">
+            <button type="submit">Salir</button>
+        </form>
+    </nav>
+</header>
+<main>
+    <section class="page-title">
+        <h2>Acceso denegado</h2>
+        <a class="btn secondary" th:href="@{/dashboard}">Ir al dashboard</a>
+    </section>
+
+    <table>
+        <tbody>
+        <tr>
+            <th>Motivo</th>
+            <td>Tu usuario no tiene permisos para acceder a esta seccion.</td>
+        </tr>
+        <tr>
+            <th>Sugerencia</th>
+            <td>Ingresa con un usuario con rol autorizado o vuelve al dashboard.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

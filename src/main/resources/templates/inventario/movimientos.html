@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movimientos de inventario - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Movimientos de inventario</h2>
+        <a class="btn secondary" th:href="@{/inventario}">Productos</a>
+    </section>
+
+    <form class="form-grid" th:action="@{/inventario/movimientos}" th:object="${movimiento}" method="post">
+        <label>Producto
+            <select th:field="*{productoId}" required>
+                <option value="">Seleccionar</option>
+                <option th:each="producto : ${productos}" th:value="${producto.id}" th:text="${producto.codigo + ' - ' + producto.nombre}"></option>
+            </select>
+        </label>
+        <label>Tipo
+            <select th:field="*{tipoMovimiento}">
+                <option th:each="tipo : ${tiposMovimiento}" th:value="${tipo}" th:text="${tipo}"></option>
+            </select>
+        </label>
+        <label>Cantidad
+            <input type="number" min="1" th:field="*{cantidad}" required>
+        </label>
+        <label>Orden relacionada
+            <select th:field="*{ordenServicioId}">
+                <option value="">Sin orden</option>
+                <option th:each="orden : ${ordenes}" th:value="${orden.id()}" th:text="${orden.etiqueta()}"></option>
+            </select>
+        </label>
+        <label>Responsable
+            <input th:field="*{usuarioResponsable}" maxlength="120">
+        </label>
+        <label class="full">Motivo
+            <textarea th:field="*{motivo}" maxlength="500"></textarea>
+        </label>
+        <div class="actions full">
+            <button type="submit">Registrar movimiento</button>
+        </div>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Producto</th>
+            <th>Tipo</th>
+            <th>Cantidad</th>
+            <th>Stock resultante</th>
+            <th>Orden</th>
+            <th>Motivo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="mov : ${movimientos}">
+            <td th:text="${#temporals.format(mov.fechaMovimiento, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${mov.productoCodigo + ' - ' + mov.productoNombre}"></td>
+            <td th:text="${mov.tipoMovimiento}"></td>
+            <td th:text="${mov.cantidad}"></td>
+            <td th:text="${mov.stockResultante}"></td>
+            <td th:text="${mov.ordenServicioId == null ? '-' : '#' + mov.ordenServicioId}"></td>
+            <td th:text="${mov.motivo} ?: '-'"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

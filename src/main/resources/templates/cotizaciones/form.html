@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva cotizacion - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+
+    <section class="page-title">
+        <h2>Nueva cotizacion</h2>
+        <a class="btn secondary" th:href="@{/cotizaciones}">Volver</a>
+    </section>
+
+    <form class="form-grid" th:action="@{/cotizaciones}" th:object="${cotizacion}" method="post">
+        <label>Orden de servicio
+            <select th:field="*{ordenServicioId}" required>
+                <option value="">Seleccionar</option>
+                <option th:each="orden : ${ordenes}" th:value="${orden.id()}" th:text="${orden.etiqueta()}"></option>
+            </select>
+        </label>
+        <label>Fecha vencimiento
+            <input type="date" th:field="*{fechaVencimiento}">
+        </label>
+        <label class="full">Observaciones
+            <textarea th:field="*{observaciones}" maxlength="500"></textarea>
+        </label>
+
+        <label>Detalle 1
+            <input th:field="*{descripcion1}" required maxlength="250">
+        </label>
+        <label>Cantidad 1
+            <input type="number" min="1" th:field="*{cantidad1}" required>
+        </label>
+        <label>Precio 1
+            <input type="number" min="0.01" step="0.01" th:field="*{precioUnitario1}" required>
+        </label>
+
+        <label>Detalle 2
+            <input th:field="*{descripcion2}" maxlength="250">
+        </label>
+        <label>Cantidad 2
+            <input type="number" min="1" th:field="*{cantidad2}">
+        </label>
+        <label>Precio 2
+            <input type="number" min="0.01" step="0.01" th:field="*{precioUnitario2}">
+        </label>
+
+        <label>Detalle 3
+            <input th:field="*{descripcion3}" maxlength="250">
+        </label>
+        <label>Cantidad 3
+            <input type="number" min="1" th:field="*{cantidad3}">
+        </label>
+        <label>Precio 3
+            <input type="number" min="0.01" step="0.01" th:field="*{precioUnitario3}">
+        </label>
+
+        <div class="actions full">
+            <button type="submit">Guardar cotizacion</button>
+            <a class="btn secondary" th:href="@{/cotizaciones}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

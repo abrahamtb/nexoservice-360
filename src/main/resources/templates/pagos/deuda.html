@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Deuda de orden - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+
+    <section class="page-title">
+        <h2 th:text="${'Deuda de orden #' + deuda.ordenServicioId()}"></h2>
+        <a class="btn secondary" th:href="@{/pagos}">Volver</a>
+    </section>
+
+    <section class="detail-grid">
+        <article><span>Cotizacion</span><strong th:text="${deuda.numeroCotizacion()} ?: '-'"></strong></article>
+        <article><span>Total</span><strong th:text="${deuda.total()}"></strong></article>
+        <article><span>Pagado</span><strong th:text="${deuda.pagado()}"></strong></article>
+        <article><span>Saldo</span><strong th:text="${deuda.saldo()}"></strong></article>
+        <article><span>Estado</span><strong th:text="${deuda.estado()}"></strong></article>
+    </section>
+
+    <div class="actions">
+        <a class="btn" th:href="@{/pagos/nuevo(ordenId=${deuda.ordenServicioId()},cotizacionId=${deuda.cotizacionAprobadaId()})}">Registrar pago</a>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Monto</th>
+            <th>Metodo</th>
+            <th>Fecha</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pago : ${pagos}">
+            <td th:text="${pago.id()}"></td>
+            <td th:text="${pago.monto()}"></td>
+            <td th:text="${pago.metodoPago()}"></td>
+            <td th:text="${#temporals.format(pago.fechaPago(), 'dd/MM/yyyy HH:mm')}"></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Usuarios - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <div>
+            <h2>Usuarios</h2>
+            <span th:text="${usuariosActivos + ' activos de ' + usuarios.size() + ' registrados'}">Usuarios activos</span>
+        </div>
+        <a class="btn" th:href="@{/usuarios/nuevo}">Nuevo usuario</a>
+    </section>
+
+    <section class="user-summary">
+        <article class="metric compact" th:each="item : ${resumenUsuarios}">
+            <span th:text="${item.key}">Rol</span>
+            <strong th:text="${item.value}">0</strong>
+        </article>
+    </section>
+
+    <table class="user-table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Tecnico vinculado</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.id}"></td>
+            <td>
+                <strong class="user-name" th:text="${usuario.username}">usuario</strong>
+                <span class="muted-text" th:text="${usuario.fechaCreacion == null ? 'Creado automaticamente' : 'Creado en el sistema'}">Creado</span>
+            </td>
+            <td th:text="${usuario.correo}"></td>
+            <td>
+                <span class="status role"
+                      th:classappend="${usuario.rol.nombre.name() == 'TECNICO' ? ' technician' : (usuario.rol.nombre.name() == 'RECEPCIONISTA' ? ' reception' : (usuario.rol.nombre.name() == 'CLIENTE' ? ' client' : ' admin'))}"
+                      th:text="${usuario.rol.nombre.name() == 'ADMIN' ? 'ADMINISTRADOR' : usuario.rol.nombre}">
+                    Rol
+                </span>
+            </td>
+            <td>
+                <span th:if="${usuario.tecnico != null}" th:text="${usuario.tecnico.nombres + ' ' + usuario.tecnico.apellidos}"></span>
+                <span class="muted-text" th:if="${usuario.tecnico == null}">No aplica</span>
+            </td>
+            <td>
+                <span class="status"
+                      th:classappend="${usuario.activo ? ' active' : ' inactive'}"
+                      th:text="${usuario.activo ? 'Activo' : 'Inactivo'}">
+                    Estado
+                </span>
+            </td>
+            <td>
+                <a class="btn secondary" th:href="@{/usuarios/{id}/editar(id=${usuario.id})}">Editar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

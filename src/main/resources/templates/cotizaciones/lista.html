@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cotizaciones - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Cotizaciones</h2>
+        <a class="btn" th:href="@{/cotizaciones/nueva}">Nueva cotizacion</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/cotizaciones}" method="get">
+        <select name="estado">
+            <option value="">Todos los estados</option>
+            <option th:each="estado : ${estados}" th:value="${estado}" th:text="${estado}" th:selected="${estado == estadoSeleccionado}"></option>
+        </select>
+        <button type="submit">Filtrar</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Numero</th>
+            <th>Orden</th>
+            <th>Emision</th>
+            <th>Vencimiento</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cotizacion : ${cotizaciones}">
+            <td th:text="${cotizacion.numero()}"></td>
+            <td th:text="${'#' + cotizacion.ordenServicioId()}"></td>
+            <td th:text="${cotizacion.fechaEmision()}"></td>
+            <td th:text="${cotizacion.fechaVencimiento()} ?: '-'"></td>
+            <td th:text="${cotizacion.total()}"></td>
+            <td><span class="status" th:text="${cotizacion.estado()}"></span></td>
+            <td class="actions">
+                <a class="btn secondary" th:href="@{/cotizaciones/{id}(id=${cotizacion.id()})}">Ver</a>
+                <a class="btn secondary" th:href="@{/reportes/cotizaciones/{id}.pdf(id=${cotizacion.id()})}" target="_blank">PDF</a>
+                <a class="btn secondary" th:href="@{/pagos/nuevo(ordenId=${cotizacion.ordenServicioId()},cotizacionId=${cotizacion.id()})}">Pago</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

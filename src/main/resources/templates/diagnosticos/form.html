@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagnostico - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+
+    <section class="page-title">
+        <h2 th:text="${diagnosticoId == null ? 'Nuevo diagnostico' : 'Editar diagnostico'}"></h2>
+        <a class="btn secondary" th:href="@{/ordenes/{id}(id=${ordenId})}">Volver</a>
+    </section>
+
+    <form class="form-grid" th:action="${diagnosticoId == null} ? @{/diagnosticos} : @{/diagnosticos/{id}(id=${diagnosticoId})}" th:object="${diagnostico}" method="post">
+        <input type="hidden" th:field="*{ordenServicioId}">
+        <label class="full">Descripcion de la falla
+            <textarea th:field="*{descripcionFalla}" required maxlength="700"></textarea>
+        </label>
+        <label class="full">Causa probable
+            <textarea th:field="*{causaProbable}" maxlength="500"></textarea>
+        </label>
+        <label class="full">Solucion aplicada o recomendada
+            <textarea th:field="*{solucionRecomendada}" required maxlength="700"></textarea>
+        </label>
+        <label class="full">Observaciones
+            <textarea th:field="*{observaciones}" maxlength="500"></textarea>
+        </label>
+        <label>Usuario responsable
+            <input th:field="*{usuarioResponsable}" maxlength="120" placeholder="Carlos Ramos">
+        </label>
+        <div class="actions full">
+            <button type="submit">Guardar diagnostico</button>
+            <a class="btn secondary" th:href="@{/ordenes/{id}(id=${ordenId})}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

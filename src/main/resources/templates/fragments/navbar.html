@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="mainNavbar">
+    <a th:href="@{/dashboard}">Dashboard</a>
+    <a th:if="${navPuedeGestionarClientes}" th:href="@{/clientes}">Clientes</a>
+    <a th:if="${navPuedeGestionarEquipos}" th:href="@{/equipos}">Activos</a>
+    <a th:href="@{/ordenes}">Ordenes</a>
+    <a th:if="${navPuedeGestionarCotizaciones}" th:href="@{/cotizaciones}">Cotizaciones</a>
+    <a th:if="${navPuedeGestionarPagos}" th:href="@{/pagos}">Pagos</a>
+    <a th:if="${navPuedeGestionarInventario}" th:href="@{/inventario}">Inventario</a>
+    <form class="logout-form" th:action="@{/logout}" method="post">
+        <button type="submit">Salir</button>
+    </form>
+</nav>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tipos de activo - NexoService 360</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<header>
+    <h1>NexoService 360</h1>
+    <nav th:replace="~{fragments/navbar :: mainNavbar}"></nav>
+</header>
+<main>
+    <div class="alert" th:if="${alertaError}" th:text="${alertaError}"></div>
+    <div class="alert success" th:if="${alertaExito}" th:text="${alertaExito}"></div>
+
+    <section class="page-title">
+        <h2>Tipos de activo</h2>
+        <a class="btn" th:href="@{/tipos-activo/nuevo}">Nuevo tipo</a>
+    </section>
+
+    <form class="toolbar" th:action="@{/tipos-activo}" method="get">
+        <input type="search" name="buscar" placeholder="Buscar por nombre o descripcion" th:value="${buscar}">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="tipoActivo : ${tiposActivo}">
+            <td th:text="${tipoActivo.id()}"></td>
+            <td th:text="${tipoActivo.nombre()}"></td>
+            <td th:text="${tipoActivo.descripcion()}"></td>
+            <td><span class="status" th:text="${tipoActivo.activo() ? 'Activo' : 'Inactivo'}"></span></td>
+            <td class="actions">
+                <a class="btn secondary" th:href="@{/tipos-activo/{id}/editar(id=${tipoActivo.id()})}">Editar</a>
+                <form th:action="@{/tipos-activo/{id}/desactivar(id=${tipoActivo.id()})}" method="post">
+                    <button class="danger" type="submit">Desactivar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
