@@ -15,6 +15,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 @Component
 @RequiredArgsConstructor
@@ -27,6 +28,9 @@ public class DataInitializer implements CommandLineRunner {
     private final PasswordEncoder passwordEncoder;
     private final JdbcTemplate jdbcTemplate;
 
+    @Value("${app.demo-users.enabled:false}")
+    private boolean demoUsersEnabled;
+
     @Override
     public void run(String... args) {
         migrarEstadosOrdenAntiguos();
@@ -36,11 +40,14 @@ public class DataInitializer implements CommandLineRunner {
         Rol tecnico = crearRolSiNoExiste(NombreRol.TECNICO);
         crearRolSiNoExiste(NombreRol.CLIENTE);
 
-        Tecnico tecnicoDemo = crearTecnicoDemoSiNoExiste();
-
-        crearOActualizarUsuario("admin", "admin@nexoservice.com", "admin123", admin, null);
-        crearOActualizarUsuario("recepcion", "recepcion@nexoservice.com", "recep123", recepcionista, null);
-        crearOActualizarUsuario("tecnico", "tecnico@nexoservice.com", "tec123", tecnico, tecnicoDemo);
+        // Only seed predictable demonstration credentials when explicitly enabled.
+        // Never enable this option in a public or production deployment.
+        if (demoUsersEnabled) {
+            Tecnico tecnicoDemo = crearTecnicoDemoSiNoExiste();
+            crearOActualizarUsuario("admin", "admin@nexoservice.com", "admin123", admin, null);
+            crearOActualizarUsuario("recepcion", "recepcion@nexoservice.com", "recep123", recepcionista, null);
+            crearOActualizarUsuario("tecnico", "tecnico@nexoservice.com", "tec123", tecnico, tecnicoDemo);
+        }
 
         crearTipoActivoSiNoExiste("Aire acondicionado", "Equipos de climatizacion residencial, comercial o industrial");
         crearTipoActivoSiNoExiste("Vehiculo", "Autos, motos u otros activos automotrices");
