@@ -1,6 +1,26 @@
 # NexoService 360
 
-Backend académico y evolutivo para gestionar servicios técnicos, mantenimiento, reparación, instalación o calibración de equipos.
+> **Proyecto académico en evolución:** sistema web para administrar clientes, equipos, técnicos, servicios y órdenes de trabajo en negocios de soporte técnico, mantenimiento y reparación.
+
+## Resumen del proyecto
+
+| Aspecto | Implementación documentada |
+| --- | --- |
+| **Backend** | Java 17, Spring Boot 3, Spring Data JPA, MySQL |
+| **Interfaz web** | Thymeleaf, formularios y vistas de consulta |
+| **Funcionalidades** | Gestión de clientes, equipos, técnicos, servicios y órdenes; consultas y reportes PDF |
+| **Seguridad existente** | Inicio de sesión con Spring Security y reglas de acceso basadas en roles |
+| **Documentación** | [API REST](docs/API_ENDPOINTS.md), [documentación del proyecto](docs/README_PROYECTO.md), [colección Postman](docs/postman/NexoService_360.postman_collection.json) |
+
+Este repositorio reúne implementación y documentación técnica. Los comandos de ejecución y prueba se proporcionan más abajo, pero **no se afirma que se hayan ejecutado exitosamente en esta revisión**.
+
+### ⚠️ Estado de seguridad
+
+**Solo para uso académico y local; no desplegar en Internet en su configuración actual.** La revisión del código identifica tres riesgos: existe una contraseña de respaldo para MySQL en `application.properties`, el inicializador crea cuentas de demostración con claves predecibles y la protección CSRF está desactivada en `SecurityConfig`. No utilices credenciales reales ni bases de datos sensibles con esta configuración. Antes de cualquier despliegue es necesario eliminar secretos del código e historial, rotar credenciales que puedan haberse reutilizado, limitar los datos de demostración al entorno de desarrollo y revisar la configuración de seguridad y CSRF.
+
+**Enlaces:** [Repositorio](https://github.com/abrahamtb/nexoservice-360) · [Perfil del autor](https://github.com/abrahamtb) · [LinkedIn](https://www.linkedin.com/in/abrahamtb/)
+
+---
 
 ## Estado actual
 
@@ -137,11 +157,7 @@ $env:DB_USERNAME="root"
 $env:DB_PASSWORD="tu_password"
 ```
 
-Si no defines variables, la aplicación intentará conectarse a:
-
-- URL: `jdbc:mysql://localhost:3306/nexoservice_db`
-- Usuario: `root`
-- Password: vacío
+**Importante:** configura siempre `DB_URL`, `DB_USERNAME` y `DB_PASSWORD` para tu entorno local. Actualmente existe un valor de respaldo inseguro en la configuración fuente, pendiente de eliminar; no dependas de él ni reutilices credenciales reales.
 
 ## Estructura de resources
 
@@ -229,21 +245,14 @@ Pruebas:
 mvn test
 ```
 
-## Próximo paso
+## Próximas mejoras recomendadas
 
-Completar y probar Sprint 5:
+1. **Seguridad:** eliminar credenciales de respaldo, aislar los usuarios demo por perfil y revisar CSRF y los permisos.
+2. **Verificación:** ejecutar pruebas automatizadas, validar manualmente las vistas y contrastar los endpoints reales con la colección Postman.
+3. **Operación:** preparar configuración segura por entorno, migraciones controladas y una guía de despliegue.
+4. **Portafolio:** incorporar capturas reales de pantallas y resultados de pruebas verificables.
 
-- Levantar MySQL.
-- Ejecutar la aplicacion.
-- Probar endpoints de clientes en Postman.
-- Probar endpoints de equipos en Postman.
-- Probar endpoints de tecnicos en Postman.
-- Probar endpoints de servicios en Postman.
-- Probar endpoints de ordenes en Postman.
-- Probar pantallas Thymeleaf.
-- Probar reportes PDF.
-- Ajustar validaciones si aparece una regla nueva.
-- Luego pasar al Sprint 6: seguridad con Spring Security, JWT, roles y permisos.
+> Spring Security y roles ya aparecen en el código. No se afirma que JWT esté implementado.
 
 ## Pantallas Thymeleaf para presentacion
 
@@ -271,13 +280,7 @@ Acceso denegado:
 GET /access-denied
 ```
 
-Usuarios demo:
-
-```text
-admin / admin123
-recepcion / recep123
-tecnico / tec123
-```
+Usuarios de demostración: el inicializador incluye cuentas con claves predecibles. No se reproducen aquí; deben restringirse al entorno local y sustituirse por un mecanismo seguro antes de un despliegue.
 
 CRUD Clientes:
 
@@ -1039,3 +1042,7 @@ Cambiar estado:
   "activo": false
 }
 ```
+
+---
+
+**Autor:** [Abraham Tintaya Barreda](https://github.com/abrahamtb) · [LinkedIn](https://www.linkedin.com/in/abrahamtb/)
